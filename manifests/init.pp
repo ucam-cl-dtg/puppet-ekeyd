@@ -8,6 +8,7 @@ class ekeyd(
   if $::ekeyd_key_present != 'true' { fail("Can't find an ekey key plugged into usb on ${::fqdn}") }
 
   case $::operatingsystem {
+    ubuntu: { include ekeyd::debian }
     debian: { include ekeyd::debian }
     default: { include ekeyd::base }
   }

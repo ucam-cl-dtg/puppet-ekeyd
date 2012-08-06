@@ -6,6 +6,7 @@ class ekeyd::egd (
   }
 
   case $::operatingsystem {
+    ubuntu: { include ekeyd::egd::debian }
     debian: { include ekeyd::egd::debian }
     default: { include ekeyd::egd::base }
   }

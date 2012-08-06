@@ -13,6 +13,7 @@ class ekeyd::base {
   #   127.0.0.1 and 8888
   file{'/etc/entropykey/ekeyd.conf':
     content => $::operatingsystem ? {
+      'ubuntu' => template("ekeyd/ekeyd.conf_lenny.erb"),
       'debian' => template("ekeyd/ekeyd.conf_${::lsbdistcodename}.erb"),
        default => template("ekeyd/ekeyd.conf_default.erb"),
     },
