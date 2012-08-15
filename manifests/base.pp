@@ -8,15 +8,8 @@ class ekeyd::base {
   # * eventually it would be cool if we could have two classes: one for
   # SetOutputToKernel and one for EGDTCPSocket. But for now we're just going
   # to have puppet deliver the ekeyd.conf file.
-  # * ekeyd will be setup to feed output to whatever is configured in the
-  #   variables: $ekeyd_host and $ekeyd_port with the defaults being
-  #   127.0.0.1 and 8888
   file{'/etc/entropykey/ekeyd.conf':
-    content => $::operatingsystem ? {
-      'ubuntu' => template("ekeyd/ekeyd.conf_lenny.erb"),
-      'debian' => template("ekeyd/ekeyd.conf_${::lsbdistcodename}.erb"),
-       default => template("ekeyd/ekeyd.conf_default.erb"),
-    },
+    content => template("ekeyd/ekeyd.conf.erb"),
     require => Package['ekeyd'],
     notify => Service['ekeyd'],
     owner => root, group => 0, mode => 0644;
@@ -26,9 +19,17 @@ class ekeyd::base {
     enable => true,
   }
 
-  exec{'configure_ekeyd_key':
-    command => "ekey-rekey `ekeydctl list | grep \"/dev/entropykey\" | awk -F, '{ print \$5}'` ${ekeyd::masterkey}",
-    unless => "ekeydctl list | grep -q 'Running OK'",
-    require => Service['ekeyd'],
+  if $ekeyd::masterkey != undef {
+    exec{'configure_ekeyd_key':
+      command => "ekey-rekey `ekeydctl list | grep \"/dev/entropykey\" | awk -F, '{ print \$5}'` ${ekeyd::masterkey}",
+      unless => "ekeydctl list | grep -q 'Running OK'",
+      require => Service['ekeyd'],
+    }
+  } else {
+    # Not configuring automatically, check was configured manually
+    exec {'check_ekeyd_key_configured':
+      command => "ekeydctl list | grep -q 'Running OK'",
+      require => Service['ekeyd'],
+    }
   }
 }

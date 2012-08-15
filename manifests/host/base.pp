@@ -3,11 +3,6 @@ class ekeyd::host::base inherits ekeyd::base {
     value => 1024
   }
 
-  File['/etc/entropykey/ekeyd.conf']{
-    source => 'puppet:///modules/ekeyd/ekeyd.conf.daemon',
-    content => undef,
-  }
-
   Service['ekeyd']{
     before => Service['egd-linux'],
   }
