@@ -19,7 +19,7 @@ class ekeyd::base {
     enable => true,
   }
 
-  if $ekeyd::masterkey != undef {
+  if $ekeyd::masterkey != '' {
     exec{'configure_ekeyd_key':
       command => "ekey-rekey `ekeydctl list | grep \"/dev/entropykey\" | awk -F, '{ print \$5}'` ${ekeyd::masterkey}",
       unless => "ekeydctl list | grep -q 'Running OK'",

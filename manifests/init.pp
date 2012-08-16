@@ -1,4 +1,4 @@
-# masterkey is used to configure access to the entropy key, set to undef
+# masterkey is used to configure access to the entropy key, set to ''
 #  to disable
 # host_ip and port are the TCP ip and port that egd will be serving on
 # manage_munin and manage_shorewall configure whether those services should be enabled
