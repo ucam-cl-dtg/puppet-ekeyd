@@ -1,3 +1,6 @@
 class ekeyd::client::base {
-  include ekeyd::egd
+  # To allow a host to also have the client installed
+  if ! defined(Class['ekeyd::egd']) {
+    class { 'ekeyd::egd':}
+  }
 }

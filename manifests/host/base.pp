@@ -7,7 +7,10 @@ class ekeyd::host::base inherits ekeyd::base {
     before => Service['egd-linux'],
   }
 
-  class { 'ekeyd::egd' :
-    manage_shorewall => $ekeyd::manage_shorewall
+  # To allow the host to also have the client installed
+  if ! defined(Class['ekeyd::egd']) {
+    class { 'ekeyd::egd' :
+      manage_shorewall => $ekeyd::manage_shorewall
+    }
   }
 }
