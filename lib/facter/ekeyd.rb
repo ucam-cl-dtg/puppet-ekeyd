@@ -5,7 +5,7 @@ Facter.add('ekeyd_key_present') do
   end
 end
 Facter.add('ekeyd_key_present') do
-  confine :operatingsystem => %w{Debian}
+  confine :operatingsystem => %w{Debian Ubuntu}
   setcode do
     !`lsusb | grep "Entropy Key"`.empty?
   end
