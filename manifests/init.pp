@@ -7,7 +7,7 @@ class ekeyd(
   $host             = false,
   $host_ip          = '127.0.0.1',
   $port             = '8888',
-  $operatingmode    = 'tcp',
+  $outputmode    = 'tcp',
   $manage_munin     = false,
   $manage_shorewall = false,
 ){
