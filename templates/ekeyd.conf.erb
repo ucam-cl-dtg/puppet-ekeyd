@@ -57,7 +57,7 @@ SetOutputToKernel(7)
 -- It will default to 127.0.0.1 if not specified.
 
 <% if scope.lookupvar('ekeyd::outputmode') == 'tcp' -%>
-EGDTCPSocket(<%= scope.lookupvar('ekeyd::port') %>, "<%= scope.lookupvar('ekeyd::address') %>")
+EGDTCPSocket(<%= scope.lookupvar('ekeyd::port') %>, "<%= scope.lookupvar('ekeyd::host_ip') %>")
 <% end -%>
 <% if scope.lookupvar('ekeyd::outputmode') == 'unix' -%>
 EGDUnixSocket "/etc/entropy"
