@@ -7,6 +7,11 @@ end
 Facter.add('ekeyd_key_present') do
   confine :operatingsystem => %w{Debian Ubuntu}
   setcode do
-    !`lsusb | grep "Entropy Key"`.empty?
+    case FileTest.exists? '/usr/bin/lsusb'
+    when False
+      False
+    else
+      !`lsusb | grep "Entropy Key"`.empty?
+    end
   end
 end
