@@ -2,7 +2,11 @@ class ekeyd::debian inherits ekeyd::base {
   package { "usbutils": ensure => installed }
 
   if ( $::virtual == "vserver" ) or ( $::virtual == "xenu" ) {
-    fail("This class shouldn't be included on vservers or xen domUs")
+    if $::clientnoop {
+      warning("This class shouldn't be included on vservers or xen domUs")
+    } else {
+      fail("This class shouldn't be included on vservers or xen domUs")
+    }
   }
 
   file { "/etc/default/ekeyd":
