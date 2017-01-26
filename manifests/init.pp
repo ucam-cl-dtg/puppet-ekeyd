@@ -12,7 +12,13 @@ class ekeyd(
   $manage_shorewall = false,
 ){
 
-  if $::ekeyd_key_present != 'true' { fail("Can't find an ekey key plugged into usb on ${::fqdn}") }
+  if $::ekeyd_key_present != 'true'{
+    if !$::clientnoop {
+      fail("Can't find an ekey key plugged into usb on ${::fqdn}, ${::clientnoop}")
+    } else {
+      warning("Can't find an ekey key plugged into usb on ${::fqdn}")
+    }
+  }
 
   case $::operatingsystem {
     ubuntu: { include ekeyd::debian }
